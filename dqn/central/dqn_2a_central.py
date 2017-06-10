@@ -167,10 +167,6 @@ def main():
                 episode_reward += sum_reward
                 if sum_reward < 0:
                     collisions += 1
-                if sum_reward < 0:
-                    img = env.get_screen_gray_scale()
-                    plt.imshow(img, cmap='gray')
-                    plt.show()
                 episode_step += 1
 
                 if total_steps % update_interval == 0 and replay_memory1.size > replay_start_size:
