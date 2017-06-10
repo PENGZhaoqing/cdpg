@@ -16,7 +16,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--num-envs', type=int, default=32)
     parser.add_argument('--t-max', type=int, default=1)
-    parser.add_argument('--learning-rate', type=float, default=0.001)
+    parser.add_argument('--learning-rate', type=float, default=0.0002)
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--steps-per-epoch', type=int, default=100000)
     parser.add_argument('--testing', type=int, default=0)
