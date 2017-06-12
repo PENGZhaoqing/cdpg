@@ -86,9 +86,9 @@ def main():
         epoch_range = range(start_epoch, epoch_num + start_epoch)
         a1_AC.load_params(start_epoch - 1)
         a2_AC.load_params(start_epoch - 1)
-        logging_config(logging, dir, save_log, 'uncom_t_max'+str(t_max))
+        logging_config(logging, dir, save_log, 'uncom_t_max' + str(t_max))
     else:
-        logging_config(logging, dir, save_log, 'uncom_t_max'+str(t_max))
+        logging_config(logging, dir, save_log, 'uncom_t_max' + str(t_max))
 
     logging.info('args=%s' % args)
     logging.info('config=%s' % config.__dict__)
@@ -272,6 +272,7 @@ def main():
                            episode_values1 / training_steps, episode_values2 / training_steps,
                            episode_policys1 / training_steps, episode_policys2 / training_steps)
             logging.info(info_str)
+            logging.info(str(episode_reward))
             print info_str
 
         end = time.time()
