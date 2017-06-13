@@ -20,11 +20,15 @@ class QNet():
             os.makedirs(dir + '/' + folder)
 
         state = mx.symbol.Variable('state')
+        state = mx.symbol.Flatten(state)
         fc1 = mx.symbol.FullyConnected(data=state, name='fc1', num_hidden=200)
         act1 = mx.symbol.Activation(data=fc1, name='relu1', act_type="relu")
         fc2 = mx.symbol.FullyConnected(data=act1, name='fc2', num_hidden=128)
         act2 = mx.symbol.Activation(data=fc2, name='relu2', act_type="relu")
-        qvalue = mx.symbol.FullyConnected(data=act2, name='qvalue', num_hidden=act_space)
+        qvalue1 = mx.symbol.FullyConnected(data=act2, name='qvalue1', num_hidden=act_space)
+        qvalue2 = mx.symbol.FullyConnected(data=act2, name='qvalue2', num_hidden=act_space)
+        qvalue = mx.sym.Group([qvalue1, qvalue2])
+
         self.model = mx.mod.Module(qvalue, data_names=('state',),
                                    label_names=None, context=self.config.ctx)
         self.paralell_num = config.num_envs * config.t_max

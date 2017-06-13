@@ -16,25 +16,25 @@ file_name = os.path.basename(__file__)
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--num-envs', type=int, default=32)
+    parser.add_argument('--num-envs', type=int, default=1)
     parser.add_argument('--t-max', type=int, default=1)
     parser.add_argument('--learning-rate', type=float, default=0.0002)
     parser.add_argument('--seed', type=int, default=0)
     parser.add_argument('--steps-per-epoch', type=int, default=100000)
     parser.add_argument('--testing', type=int, default=0)
-    parser.add_argument('--continue-training', type=int, default=4)
+    parser.add_argument('--continue-training', type=int, default=0)
     parser.add_argument('--epoch-num', type=int, default=40)
     parser.add_argument('--start-epoch', type=int, default=20)
-    parser.add_argument('--testing-epoch', type=int, default=0)
+    parser.add_argument('--testing-epoch', type=int, default=3)
     parser.add_argument('--save-log', type=str, default='log')
     parser.add_argument('--signal-num', type=int, default=4)
     parser.add_argument('--toxin', type=int, default=0)
     parser.add_argument('--a1-Qnet-folder', type=str, default='basic/a1_Qnet')
-    parser.add_argument('--eps-start', type=float, default=1.0)
-    parser.add_argument('--replay-start-size', type=int, default=5000)
-    parser.add_argument('--decay-rate', type=int, default=50000)
+    parser.add_argument('--eps-start', type=float, default=0.1)
+    parser.add_argument('--replay-start-size', type=int, default=50)
+    parser.add_argument('--decay-rate', type=int, default=500000)
     parser.add_argument('--replay-memory-size', type=int, default=1000000)
-    parser.add_argument('--eps-min', type=float, default=0.1)
+    parser.add_argument('--eps-min', type=float, default=0.05)
 
     args = parser.parse_args()
     config = Config(args)
@@ -97,9 +97,9 @@ def main():
                                   memory_size=replay_memory_size,
                                   replay_start_size=replay_start_size, state_dtype='float32')
 
-    a1_Qnet = QNet(state_dim=148, signal_num=signal_num, act_space=action_num * 2, dir=dir, folder=a1_Qnet_folder,
+    a1_Qnet = QNet(state_dim=148, signal_num=signal_num, act_space=action_num, dir=dir, folder=a1_Qnet_folder,
                    config=config)
-    a1_Qnet_target = QNet(state_dim=148, signal_num=signal_num, act_space=action_num * 2, dir=dir,
+    a1_Qnet_target = QNet(state_dim=148, signal_num=signal_num, act_space=action_num, dir=dir,
                           folder=a1_Qnet_folder,
                           config=config)
 
@@ -113,9 +113,9 @@ def main():
     elif continue_training:
         epoch_range = range(start_epoch, epoch_num + start_epoch)
         a1_Qnet.load_params(start_epoch - 1)
-        logging_config(logging, dir, save_log, 'dqn_central')
-    else:
-        logging_config(logging, dir, save_log, 'dqn_central')
+        # logging_config(logging, dir, save_log, 'dqn_central')
+        # else:
+        # logging_config(logging, dir, save_log, 'dqn_central')
 
     copy_params_to(a1_Qnet, a1_Qnet_target)
 
@@ -149,18 +149,20 @@ def main():
                         action2 = np.random.randint(action_num)
                     else:
                         current_state1 = replay_memory1.latest_slice()
-                        q_value1 = a1_Qnet_target.forward(current_state1, is_train=False)[0].asnumpy()
-                        action1 = numpy.argmax(q_value1[:, 0:4])
-                        action2 = numpy.argmax(q_value1[:, 4:8])
+                        q_value1, q_value2 = a1_Qnet_target.forward(current_state1, is_train=False)
+                        q_value1 = q_value1.asnumpy()
+                        q_value2 = q_value2.asnumpy()
+                        action1 = numpy.argmax(q_value1)
+                        action2 = numpy.argmax(q_value2)
                         episode_q_value += q_value1[:, action1]
-                        episode_q_value += q_value1[:, action2 + 4]
+                        episode_q_value += q_value2[:, action2]
                         episode_action_step += 1
                 else:
                     action1 = np.random.randint(action_num)
                     action2 = np.random.randint(action_num)
 
                 next_ob, reward, terminal_flag = env.act([action_map1[action1], action_map2[action2]])
-                replay_memory1.append(np.array(next_ob).flatten(), [action1, action2], reward, terminal_flag)
+                replay_memory1.append(np.append(next_ob[0], next_ob[1]), [action1, action2], reward, terminal_flag)
 
                 total_steps += 1
                 sum_reward = sum(reward)
@@ -178,30 +180,37 @@ def main():
                     actions_batch1 = actions[:, 0]
                     actions_batch2 = actions[:, 1]
 
-                    next_Qnet = a1_Qnet_target.forward(nextstate_batch, is_train=False)[0].asnumpy()
+                    next_Qnet1, next_Qnet2 = a1_Qnet_target.forward(nextstate_batch.reshape(32, 148), is_train=False)
 
-                    next_Qnet1 = next_Qnet[:, 0:4]
-                    next_Qnet2 = next_Qnet[:, 4:8]
+                    next_Qnet1 = next_Qnet1.asnumpy()
+                    next_Qnet2 = next_Qnet2.asnumpy()
 
                     y_batch1 = rewards[:, 0] + np.max(next_Qnet1, axis=1) * (1.0 - terminate_flags) * discount
                     y_batch2 = rewards[:, 1] + np.max(next_Qnet2, axis=1) * (1.0 - terminate_flags) * discount
 
-                    Qnet1 = a1_Qnet.forward(state_batch, is_train=True)[0].asnumpy()
+                    Qnet1, Qnet2 = a1_Qnet.forward(state_batch.reshape(32, 148), is_train=True)
+
+                    Qnet1 = Qnet1.asnumpy()
+                    Qnet2 = Qnet2.asnumpy()
 
                     grads1 = np.zeros(Qnet1.shape)
                     tmp1 = Qnet1[range(len(actions_batch1)), actions_batch1] - y_batch1
-                    grads1[np.arange(grads1.shape[0]), actions_batch1] = np.clip(tmp1, -1, 1)
-
-                    tmp2 = Qnet1[range(len(actions_batch2)), actions_batch2 + 4] - y_batch2
-                    grads1[np.arange(grads1.shape[0]), actions_batch2 + 4] = np.clip(tmp2, -1, 1)
+                    grads1[np.arange(grads1.shape[0]), actions_batch1] = tmp1[:]
                     grads1 = mx.nd.array(grads1, ctx=q_ctx)
 
-                    a1_Qnet.model.backward(out_grads=[grads1])
+                    grads2 = np.zeros(Qnet2.shape)
+                    tmp2 = Qnet2[range(len(actions_batch2)), actions_batch2] - y_batch2
+                    grads2[np.arange(grads2.shape[0]), actions_batch2] = tmp2[:]
+                    grads2 = mx.nd.array(grads2, ctx=q_ctx)
+
+                    a1_Qnet.model.backward(out_grads=[grads1, grads2])
                     a1_Qnet.model.update()
 
                     if training_steps % 10 == 0:
                         loss1 = 0.5 * nd.square(grads1)
+                        loss2 = 0.5 * nd.square(grads2)
                         episode_loss += nd.sum(loss1).asnumpy()
+                        episode_loss += nd.sum(loss2).asnumpy()
                         episode_update_step += 1
 
                     if training_steps % freeze_interval == 0:
