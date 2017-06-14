@@ -57,7 +57,7 @@ def draw(mean_data1, mean_data2, mean_data3):
     plot(x1, mean_data1, x2, mean_data2, x3, mean_data3)
 
 
-no_com_network = NetworkGraph("uncom_t_max1_06:13:12:06_adam-0.002.log")
+no_com_network = NetworkGraph("basic_uncom_t_max1_06_11_22_09_adam-0.002.log")
 no_com_network.load()
 com_network = NetworkGraph("com_cdpg.py_06:13:05:31_adam-0.002.log")
 com_network.load()

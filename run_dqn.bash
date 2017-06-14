@@ -22,4 +22,4 @@
 # --toxin--
 /usr/bin/python2.7 dqn/central/dqn_2a_central.py --eps-start 1.0  --eps-min 0.05 --replay-start-size 50000 --decay-rate 500000 --replay-memory-size 1000000 --toxin 5 --signal-num 4  --epoch-num 40   --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --a1-Qnet-folder toxin/a1_Qnet  --save-log  toxin/log
 
-bash run.bash
+# bash run.bash

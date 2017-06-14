@@ -93,7 +93,7 @@ def main():
         a2_AC.load_params(start_epoch - 1)
         a1_CDPG.load_params(start_epoch - 1)
         a2_CDPG.load_params(start_epoch - 1)
-        logging_config(logging, dir, save_log, 'com_t_max_'+str(t_max))
+        logging_config(logging, dir, save_log, 'com_t_max_' + str(t_max))
     else:
         logging_config(logging, dir, save_log, file_name)
 

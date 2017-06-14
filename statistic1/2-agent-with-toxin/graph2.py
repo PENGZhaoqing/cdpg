@@ -54,11 +54,12 @@ def draw(mean_data1, mean_data2, mean_data3):
     plot(x1, mean_data1, x2, mean_data2, x3, mean_data3)
 
 
-no_com_network = NetworkGraph("uncom_t_max1_06:13:13:34_adam-0.002.log")
+
+no_com_network = NetworkGraph("toxin_uncom_t_max1_06_11_23_37_adam-0.002.log")
 no_com_network.load()
-com_network = NetworkGraph("com_cdpg.py_06:13:10:17_adam-0.002.log")
+com_network = NetworkGraph("cdpg.py_06:07:09:59_adam-0.002.log")
 com_network.load()
-cen_network = NetworkGraph("com_cdpg.py_06:13:10:17_adam-0.002.log")
+cen_network = NetworkGraph("cdpg.py_06:07:18:34_adam-0.002.log")
 cen_network.load()
 
 fig = plt.figure(1, figsize=(30, 10))
