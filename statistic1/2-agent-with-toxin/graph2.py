@@ -40,9 +40,9 @@ class NetworkGraph(object):
 
 
 def plot(x1, y1, x2, y2, x3, y3):
-    plt.plot(x1, y1, 'b-o', label="Full distributed method")
-    plt.plot(x2, y2, 'r-o', label="Cooperative distributed method (CDPG)")
-    plt.plot(x3, y3, 'g-o', label="Centralized method")
+    plt.plot(x1, y1, 'b-o', label="Decentralized")
+    plt.plot(x2, y2, 'r-o', label="Centralized")
+    plt.plot(x3, y3, 'g-o', label="Cooperative distributed method (CDPG)")
     plt.legend(loc=4, labelspacing=0)
     plt.setp(plt.gca().get_legend().get_texts(), fontsize='10')
 
@@ -54,11 +54,11 @@ def draw(mean_data1, mean_data2, mean_data3):
     plot(x1, mean_data1, x2, mean_data2, x3, mean_data3)
 
 
-no_com_network = NetworkGraph("uncom_t_max3_06:07:23:18_adam-0.002.log")
+no_com_network = NetworkGraph("uncom_t_max1_06:13:13:34_adam-0.002.log")
 no_com_network.load()
-com_network = NetworkGraph("com_tmax_1_06:03:00:46_adam-0.002.log")
+com_network = NetworkGraph("com_cdpg.py_06:13:10:17_adam-0.002.log")
 com_network.load()
-cen_network = NetworkGraph("central_t_max_3_06:07:20:50_adam-0.002.log")
+cen_network = NetworkGraph("com_cdpg.py_06:13:10:17_adam-0.002.log")
 cen_network.load()
 
 fig = plt.figure(1, figsize=(30, 10))

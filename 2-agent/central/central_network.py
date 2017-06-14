@@ -1,4 +1,5 @@
 import mxnet as mx
+import os
 
 
 class ActorCritic(object):
@@ -8,6 +9,9 @@ class ActorCritic(object):
         self.config = config
         self.folder = folder
         self.dir = dir
+
+        if not os.path.exists(dir + '/' + folder):
+            os.makedirs(dir + '/' + folder)
 
         state = mx.sym.Variable('state')
         net = mx.sym.FullyConnected(
