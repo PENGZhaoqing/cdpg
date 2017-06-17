@@ -40,9 +40,9 @@ class NetworkGraph(object):
 
 
 def plot(x1, y1, x2, y2, x3, y3):
-    plt.plot(x1, y1, 'b-o', label="Full distributed method")
-    plt.plot(x2, y2, 'r-o', label="Cooperative distributed method (CDPG)")
-    plt.plot(x3, y3, 'g-o', label="Centralized method")
+    plt.plot(x1, y1, 'b-o', label="Decentralized")
+    plt.plot(x2, y2, 'r-o', label="Centralized")
+    plt.plot(x3, y3, 'g-o', label="Cooperative distributed method (CDPG)")
     plt.legend(loc=4, labelspacing=0)
     plt.setp(plt.gca().get_legend().get_texts(), fontsize='10')
 
@@ -52,6 +52,7 @@ def draw(mean_data1, mean_data2, mean_data3):
     x2 = range(len(mean_data2))
     x3 = range(len(mean_data3))
     plot(x1, mean_data1, x2, mean_data2, x3, mean_data3)
+
 
 
 no_com_network = NetworkGraph("toxin_uncom_t_max1_06_11_23_37_adam-0.002.log")
