@@ -37,41 +37,49 @@ class NetworkGraph(object):
         self.policies = np.array(self.policies, dtype=float)
 
 
-def plot(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5):
+def plot(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, x6, y6, x7, y7):
     plt.plot(x1, y1, 'b-', label="message length:1")
     plt.plot(x2, y2, 'r-', label="message length:2")
-    plt.plot(x3, y3, 'g-', label="message length:4")
-    plt.plot(x4, y4, 'y-', label="message length:8")
-    plt.plot(x5, y5, 'k-', label="message length:16")
-
+    plt.plot(x3, y3, 'g-', label="message length:3")
+    plt.plot(x4, y4, 'y-', label="message length:4")
+    plt.plot(x5, y5, 'm-', label="message length:5")
+    plt.plot(x6, y6, 'c-', label="message length:6")
+    plt.plot(x7, y7, '0.5', label="message length:8")
     plt.legend(loc=4, labelspacing=0)
     plt.setp(plt.gca().get_legend().get_texts(), fontsize='10')
 
 
-def draw(mean_data1, mean_data2, mean_data3, mean_data4, mean_data5):
+def draw(mean_data1, mean_data2, mean_data3, mean_data4, mean_data5, mean_data6, mean_data7):
     x1 = range(len(mean_data1))
     x2 = range(len(mean_data2))
     x3 = range(len(mean_data3))
     x4 = range(len(mean_data4))
     x5 = range(len(mean_data5))
+    x6 = range(len(mean_data6))
+    x7 = range(len(mean_data7))
+    plot(x1, mean_data1, x2, mean_data2, x3, mean_data3, x4, mean_data4, x5, mean_data5, x6, mean_data6, x7, mean_data7)
 
-    plot(x1, mean_data1, x2, mean_data2, x3, mean_data3, x4, mean_data4, x5, mean_data5)
 
-
-com_signal_1 = NetworkGraph("signal_1_cdpg.py_06:07:06:52_adam-0.002.log")
+com_signal_1 = NetworkGraph("1_cdpg.py_06:14:12:21_adam-0.002.log")
 com_signal_1.load()
-com_signal_2 = NetworkGraph("signal_2_cdpg.py_06:07:08:25_adam-0.002.log")
+com_signal_2 = NetworkGraph("2_cdpg.py_06:14:14:05_adam-0.002.log")
 com_signal_2.load()
-com_signal_4 = NetworkGraph("signal_4_cdpg.py_06:07:09:59_adam-0.002.log")
+com_signal_3 = NetworkGraph("3_cdpg.py_06:14:15:48_adam-0.002.log")
+com_signal_3.load()
+com_signal_4 = NetworkGraph("4_cdpg.py_06:14:17:35_adam-0.002.log")
 com_signal_4.load()
-com_signal_8 = NetworkGraph("signal_8_cdpg.py_06:07:11:34_adam-0.002.log")
+com_signal_5 = NetworkGraph("5_cdpg.py_06:14:19:19_adam-0.002.log")
+com_signal_5.load()
+com_signal_6 = NetworkGraph("6_cdpg.py_06:14:21:04_adam-0.002.log")
+com_signal_6.load()
+com_signal_8 = NetworkGraph("8_cdpg.py_06:14:22:48_adam-0.002.log")
 com_signal_8.load()
-com_signal_16 = NetworkGraph("signal_16_cdpg.py_06:07:13:10_adam-0.002.log")
-com_signal_16.load()
 
 fig = plt.figure(1, figsize=(30, 6))
 plt.subplot(121)
-draw(com_signal_1.reward, com_signal_2.reward, com_signal_4.reward, com_signal_8.reward, com_signal_16.reward)
+draw(com_signal_1.reward, com_signal_2.reward, com_signal_3.reward, com_signal_4.reward, com_signal_5.reward,
+     com_signal_6.reward,
+     com_signal_8.reward)
 plt.ylabel('scores')
 plt.grid(True)
 

@@ -43,7 +43,7 @@ def plot(x1, y1, x2, y2, x3, y3, x4, y4, x5, y5, x6, y6):
     plt.plot(x3, y3, 'g-', label="message length:3")
     plt.plot(x4, y4, 'y-', label="message length:4")
     plt.plot(x5, y5, 'c', label="message length:6")
-    plt.plot(x6, y6, 'k-', label="message length:8")
+    plt.plot(x6, y6, 'm-', label="message length:8")
     plt.legend(loc=4, labelspacing=0)
     plt.setp(plt.gca().get_legend().get_texts(), fontsize='10')
 
@@ -56,7 +56,6 @@ def draw(mean_data1, mean_data2, mean_data3, mean_data4, mean_data5, mean_data6)
     x5 = range(len(mean_data5))
     x6 = range(len(mean_data6))
     plot(x1, mean_data1, x2, mean_data2, x3, mean_data3, x4, mean_data4, x5, mean_data5, x6, mean_data6)
-
 
 com_signal_1 = NetworkGraph("1_cdpg.py_06:13:00:49_adam-0.002.log")
 com_signal_1.load()
