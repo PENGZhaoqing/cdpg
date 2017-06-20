@@ -19,20 +19,20 @@
 #/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --signal-num 5 --a1-AC-folder toxin_signal_5/a1_AC --a2-AC-folder toxin_signal_5/a2_AC  --a1-CDPG-folder toxin_signal_5/a1_CDPG  --a2-CDPG-folder toxin_signal_5/a2_CDPG --save-log  toxin_signal_5/log
 
 # --toxin signal 6--
-#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --signal-num 6 --a1-AC-folder toxin_signal_6/a1_AC --a2-AC-folder toxin_signal_6/a2_AC  --a1-CDPG-folder toxin_signal_6/a1_CDPG  --a2-CDPG-folder toxin_signal_6/a2_CDPG --save-log  toxin_signal_6/log
+#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 4  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 26 --signal-num 6 --a1-AC-folder toxin_signal_6/a1_AC --a2-AC-folder toxin_signal_6/a2_AC  --a1-CDPG-folder toxin_signal_6/a1_CDPG  --a2-CDPG-folder toxin_signal_6/a2_CDPG --save-log  toxin_signal_6/log
 
 # --toxin signal 8--
-#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --signal-num 8 --a1-AC-folder toxin_signal_8/a1_AC --a2-AC-folder toxin_signal_8/a2_AC  --a1-CDPG-folder toxin_signal_8/a1_CDPG  --a2-CDPG-folder toxin_signal_8/a2_CDPG --save-log  toxin_signal_8/log
+/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 15  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 11 --signal-num 8 --a1-AC-folder toxin_signal_8/a1_AC --a2-AC-folder toxin_signal_8/a2_AC  --a1-CDPG-folder toxin_signal_8/a1_CDPG  --a2-CDPG-folder toxin_signal_8/a2_CDPG --save-log  toxin_signal_8/log
 
 
 # --basic signal 1--
-#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 32 --signal-num 1 --a1-AC-folder basic_signal_1/a1_AC --a2-AC-folder basic_signal_1/a2_AC  --a1-CDPG-folder basic_signal_1/a1_CDPG  --a2-CDPG-folder basic_signal_1/a2_CDPG --save-log  basic_signal_1/log
+#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 4  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 21 --signal-num 1 --a1-AC-folder basic_signal_1/a1_AC --a2-AC-folder basic_signal_1/a2_AC  --a1-CDPG-folder basic_signal_1/a1_CDPG  --a2-CDPG-folder basic_signal_1/a2_CDPG --save-log  basic_signal_1/log
 
 # --basic signal 2--
-#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --signal-num 2 --a1-AC-folder basic_signal_2/a1_AC --a2-AC-folder basic_signal_2/a2_AC  --a1-CDPG-folder basic_signal_2/a1_CDPG  --a2-CDPG-folder basic_signal_2/a2_CDPG --save-log  basic_signal_2/log
+#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 3  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 6 --signal-num 2 --a1-AC-folder basic_signal_2/a1_AC --a2-AC-folder basic_signal_2/a2_AC  --a1-CDPG-folder basic_signal_2/a1_CDPG  --a2-CDPG-folder basic_signal_2/a2_CDPG --save-log  basic_signal_2/log
 
 # --basic signal 3--
-#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 34 --continue-training 0 --start-epoch 40 --signal-num 3 --a1-AC-folder basic_signal_3/a1_AC --a2-AC-folder basic_signal_3/a2_AC  --a1-CDPG-folder basic_signal_3/a1_CDPG  --a2-CDPG-folder basic_signal_3/a2_CDPG --save-log  basic_signal_3/log
+#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 34 --continue-training 0 --start-epoch 20 --signal-num 3 --a1-AC-folder basic_signal_3/a1_AC --a2-AC-folder basic_signal_3/a2_AC  --a1-CDPG-folder basic_signal_3/a1_CDPG  --a2-CDPG-folder basic_signal_3/a2_CDPG --save-log  basic_signal_3/log
 
 # --basic signal 4--
 #/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --signal-num 4 --a1-AC-folder basic_signal_4/a1_AC --a2-AC-folder basic_signal_4/a2_AC  --a1-CDPG-folder basic_signal_4/a1_CDPG  --a2-CDPG-folder basic_signal_4/a2_CDPG --save-log  basic_signal_4/log
@@ -44,7 +44,7 @@
 #/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --signal-num 6 --a1-AC-folder basic_signal_6/a1_AC --a2-AC-folder basic_signal_6/a2_AC  --a1-CDPG-folder basic_signal_6/a1_CDPG  --a2-CDPG-folder basic_signal_6/a2_CDPG --save-log  basic_signal_6/log
 
 # --basic signal 8--
-#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 40 --signal-num 8 --a1-AC-folder basic_signal_8/a1_AC --a2-AC-folder basic_signal_8/a2_AC  --a1-CDPG-folder basic_signal_8/a1_CDPG  --a2-CDPG-folder basic_signal_8/a2_CDPG --save-log  basic_signal_8/log
+#/usr/bin/python2.7 2-agent/ML_online/ML_online.py  --epoch-num 23  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 1 --start-epoch 17 --signal-num 8 --a1-AC-folder basic_signal_8/a1_AC --a2-AC-folder basic_signal_8/a2_AC  --a1-CDPG-folder basic_signal_8/a1_CDPG  --a2-CDPG-folder basic_signal_8/a2_CDPG --save-log  basic_signal_8/log
 
 
 # ---ML offline---
@@ -58,9 +58,9 @@
 
 # ---GL offline---
 # --basic--
-/usr/bin/python2.7 2-agent/GL_offline/GL_offline.py --t-max 1  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC  --save-log  basic/log
+#/usr/bin/python2.7 2-agent/GL_offline/GL_offline.py --t-max 1  --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC  --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/GL_offline/GL_offline.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/GL_offline/GL_offline.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
 
 # ---GL online---
 # --basic--
@@ -76,9 +76,10 @@
 
 # ---PS offline---
 # --basic--
-/usr/bin/python2.7 2-agent/PS_offline/PS_offline.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --save-log  basic/log
+#/usr/bin/python2.7 2-agent/PS_offline/PS_offline.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/PS_offline/PS_offline.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/PS_offline/PS_offline.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
+
 
 # ---IL online---
 # --basic--
@@ -88,21 +89,21 @@
 
 # ---IL offline---
 # --basic--
-/usr/bin/python2.7 2-agent/IL_offline/IL_offline.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
+#/usr/bin/python2.7 2-agent/IL_offline/IL_offline.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/IL_offline/IL_offline.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/IL_offline/IL_offline.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
 
 # ---MS imitate---
 # --basic--
-/usr/bin/python2.7 2-agent/MS_imitate/MS_imitate.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
+#/usr/bin/python2.7 2-agent/MS_imitate/MS_imitate.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/MS_imitate/MS_imitate.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/MS_imitate/MS_imitate.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
 
 # ---MS sample twice---
 # --basic--
-/usr/bin/python2.7 2-agent/MS_sample_twice/MS_sample_twice.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
+#/usr/bin/python2.7 2-agent/MS_sample_twice/MS_sample_twice.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/MS_sample_twice/MS_sample_twice.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/MS_sample_twice/MS_sample_twice.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
 
 # ----3 agent----
 # ---uncom toxin---
