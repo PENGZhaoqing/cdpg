@@ -62,11 +62,16 @@ def sym(actions_num, predict=False):
         return Dqn
 
 
+import os
+
+
 class Qnetwork():
     def __init__(self, actions_num, dir, folder, q_ctx, bef_args=None, isTrain=True, batch_size=32):
 
         self.dir = dir
         self.folder = folder
+        if not os.path.exists(dir + '/' + folder):
+            os.makedirs(dir + '/' + folder)
 
         if isTrain:
             model = mx.mod.Module(symbol=sym(actions_num),

@@ -235,6 +235,7 @@ def main():
 
             if episode % 1 == 0:
                 print info_str
+                logging.info(info_str)
 
         end = time.time()
         fps = steps_per_epoch / (end - start)
