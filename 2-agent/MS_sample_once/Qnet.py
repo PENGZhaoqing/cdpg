@@ -61,16 +61,20 @@ def sym(actions_num, predict=False):
         return Dqn
 
 
+import os
+
+
 class Qnetwork():
     def __init__(self, actions_num, dir, folder, q_ctx, bef_args=None, isTrain=True, batch_size=32):
 
         self.dir = dir
         self.folder = folder
-
+        if not os.path.exists(dir + '/' + folder):
+            os.makedirs(dir + '/' + folder)
         if isTrain:
             model = mx.mod.Module(symbol=sym(actions_num), data_names=('data', 'dqn_action', 'dqn_target'),
-                                 label_names=None,
-                                 context=q_ctx)
+                                  label_names=None,
+                                  context=q_ctx)
             bind(model,
                  data_shapes=[('data', (batch_size, 1, 74)), ('dqn_action', (batch_size,)),
                               ('dqn_target', (batch_size,))],
@@ -84,7 +88,7 @@ class Qnetwork():
                 })
         else:
             model = mx.mod.Module(symbol=sym(actions_num, predict=True), data_names=('data',), label_names=None,
-                                 context=q_ctx)
+                                  context=q_ctx)
             bind(model, data_shapes=[('data', (batch_size, 1, 74))],
                  for_training=False)
             model.init_params(initializer=mx.init.Xavier(factor_type="in", magnitude=2.34), arg_params=bef_args)

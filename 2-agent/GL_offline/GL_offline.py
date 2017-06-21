@@ -221,6 +221,7 @@ def main():
                                                       episode_action_step)
 
             if episode % 1 == 0:
+                logging.info(info_str)
                 print info_str
 
         end = time.time()

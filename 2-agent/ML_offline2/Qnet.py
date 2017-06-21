@@ -4,6 +4,7 @@ from mxnet.module.base_module import _parse_data_desc
 from mxnet.module.module import Module
 from mxnet.module.executor_group import DataParallelExecutorGroup
 import mxnet.ndarray as nd
+import sys
 
 
 class DQNOutput(mx.operator.CustomOp):
@@ -46,16 +47,17 @@ class DQNOutputProp(mx.operator.CustomOpProp):
 
 
 def sym(actions_num, predict=False):
-    data = mx.sym.Variable('data')
-    data = mx.sym.Flatten(data=data)
-    fc1 = mx.symbol.FullyConnected(data=data, name='fc1', num_hidden=200)
+    signal = mx.symbol.Variable("signal")
+    state = mx.symbol.Variable('data')
+    net = mx.symbol.Concat(state, signal, name="Qnet_concat")
+    data = mx.sym.Flatten(data=net)
+    fc1 = mx.symbol.FullyConnected(data=data, name='fc1', num_hidden=128)
     act1 = mx.symbol.Activation(data=fc1, name='relu1', act_type="relu")
     fc2 = mx.symbol.FullyConnected(data=act1, name='fc2', num_hidden=64)
     act2 = mx.symbol.Activation(data=fc2, name='relu2', act_type="relu")
     Qvalue = mx.symbol.FullyConnected(data=act2, name='qvalue', num_hidden=actions_num)
-    Dqn1 = mx.symbol.Custom(data=Qvalue, name='dqn1', op_type='DQNOutput')
-    Dqn2 = mx.symbol.Custom(data=Qvalue, name='dqn2', op_type='DQNOutput')
-    Dqn = mx.sym.Group([Dqn1, Dqn2])
+    Dqn = mx.symbol.Custom(data=Qvalue, name='dqn', op_type='DQNOutput')
+
     if predict:
         return Qvalue
     else:
@@ -66,23 +68,22 @@ import os
 
 
 class Qnetwork():
-    def __init__(self, actions_num, dir, folder, q_ctx, bef_args=None, isTrain=True, batch_size=32):
+    def __init__(self, actions_num, signal_num, dir, folder, q_ctx, bef_args=None, isTrain=True, batch_size=32):
 
         self.dir = dir
         self.folder = folder
+
         if not os.path.exists(dir + '/' + folder):
             os.makedirs(dir + '/' + folder)
 
         if isTrain:
-            model = mx.mod.Module(symbol=sym(actions_num),
-                                  data_names=('data', 'dqn1_action', 'dqn1_target', 'dqn2_action', 'dqn2_target'),
+            model = mx.mod.Module(symbol=sym(actions_num), data_names=('data', 'signal', 'dqn_action', 'dqn_target'),
                                   label_names=None,
                                   context=q_ctx)
             bind(model,
-                 data_shapes=[('data', (batch_size, 1, 148)), ('dqn1_action', (batch_size,)),
-                              ('dqn1_target', (batch_size,)), ('dqn2_action', (batch_size,)),
-                              ('dqn2_target', (batch_size,))
-                              ],
+                 data_shapes=[('data', (batch_size, 74)),
+                              ('signal', (batch_size, signal_num)), ('dqn_action', (batch_size,)),
+                              ('dqn_target', (batch_size,))], inputs_need_grad=True,
                  for_training=True)
 
             model.init_params(initializer=mx.init.Xavier(factor_type="in", magnitude=2.34), arg_params=bef_args)
@@ -91,13 +92,15 @@ class Qnetwork():
                 optimizer_params={
                     'learning_rate': 0.0002
                 })
+            self.model = model
         else:
-            model = mx.mod.Module(symbol=sym(actions_num, predict=True), data_names=('data',), label_names=None,
+            model = mx.mod.Module(symbol=sym(actions_num, predict=True), data_names=('data', 'signal'),
+                                  label_names=None,
                                   context=q_ctx)
-            bind(model, data_shapes=[('data', (batch_size, 1, 148))],
+            bind(model, data_shapes=[('data', (batch_size, 74)), ('signal', (batch_size, signal_num))],
                  for_training=False)
             model.init_params(initializer=mx.init.Xavier(factor_type="in", magnitude=2.34), arg_params=bef_args)
-        self.model = model
+            self.model = model
 
     def load_params(self, epoch):
         self.model.load_params(self.dir + '/' + self.folder + '/network-dqn_mx%04d.params' % epoch)
@@ -177,3 +180,51 @@ def bind(modQ, data_shapes, label_shapes=None, for_training=True,
 
     if shared_module is not None and shared_module.optimizer_initialized:
         modQ.borrow_optimizer(shared_module)
+
+
+class CDPG(object):
+    def __init__(self, state_dim, signal_num, dir, folder, config):
+        self.state_dim = state_dim
+        self.num_envs = config.num_envs
+        self.signal_num = signal_num
+        self.config = config
+        self.folder = folder
+        self.dir = dir
+
+        if not os.path.exists(dir + '/' + folder):
+            os.makedirs(dir + '/' + folder)
+
+        net = mx.sym.Variable('state')
+        net = mx.sym.FullyConnected(
+            data=net, name='fc1', num_hidden=100, no_bias=True)
+        net = mx.sym.Activation(data=net, name='relu1', act_type="relu")
+        signal = mx.symbol.FullyConnected(data=net, name='signal', num_hidden=signal_num)
+        self.signal = mx.symbol.Activation(data=signal, name="com", act_type="tanh")
+        self.model = mx.mod.Module(self.signal, data_names=('state',),
+                                   label_names=None, context=config.ctx)
+
+        self.paralell_num = config.num_envs * config.t_max
+        bind(self.model, data_shapes=[('state', (self.paralell_num, state_dim))], label_shapes=None, grad_req="write")
+
+        self.model.init_params(config.init_func)
+
+        optimizer_params = {'learning_rate': config.learning_rate,
+                            'rescale_grad': 1.0}
+        if config.grad_clip:
+            optimizer_params['clip_gradient'] = config.clip_magnitude
+
+        self.model.init_optimizer(
+            kvstore='local', optimizer=config.update_rule,
+            optimizer_params=optimizer_params)
+
+    def forward(self, state, is_train):
+        self.model.reshape([('state', state.shape)])
+        data_batch = mx.io.DataBatch(data=[mx.nd.array(state, ctx=self.config.ctx)], label=None)
+        self.model.forward(data_batch, is_train=is_train)
+        return self.model.get_outputs()
+
+    def load_params(self, epoch):
+        self.model.load_params(self.dir + '/' + self.folder + '/network-dqn_mx%04d.params' % epoch)
+
+    def save_params(self, epoch):
+        self.model.save_params(self.dir + '/' + self.folder + '/network-dqn_mx%04d.params' % epoch)
