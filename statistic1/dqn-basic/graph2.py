@@ -64,7 +64,6 @@ def draw(data1, data2, data3):
     x3 = range(len(mean_data3))
     plot(x1, mean_data1, x2, mean_data2, x3, mean_data3)
 
-
 no_com_network = NetworkGraph("dqn_com_06:11:00:25_adam-0.002.log")
 no_com_network.load()
 com_network = NetworkGraph("dqn_com_06:11:08:38_adam-0.002.log")

@@ -118,7 +118,7 @@ def soft_copy_params_to(net, target, soft_target_tau):
 
 def copy_params_to(net, target):
     arg_params, aux_params = net.model.get_params()
-    target.model.init_params(initializer=None, arg_params=arg_params, aux_params=aux_params, force_init=True)
+    target.model.set_params(arg_params=arg_params, aux_params=aux_params)
 
 
 def bind(module, data_shapes, label_shapes=None, for_training=True,
