@@ -38,12 +38,12 @@ def main():
     parser.add_argument('--start-epoch', type=int, default=20)
     parser.add_argument('--testing-epoch', type=int, default=39)
     parser.add_argument('--save-log', type=str, default='log')
-    parser.add_argument('--signal-num', type=int, default=4)
+    parser.add_argument('--signal-num', type=int, default=8)
     parser.add_argument('--toxin', type=int, default=0)
-    parser.add_argument('--a1-AC-folder', type=str, default='basic_signal_4/a1_AC')
-    parser.add_argument('--a2-AC-folder', type=str, default='basic_signal_4/a2_AC')
-    parser.add_argument('--a1-CDPG-folder', type=str, default='basic_signal_4/a1_CDPG')
-    parser.add_argument('--a2-CDPG-folder', type=str, default='basic_signal_4/a2_CDPG')
+    parser.add_argument('--a1-AC-folder', type=str, default='basic_signal_8/a1_AC')
+    parser.add_argument('--a2-AC-folder', type=str, default='basic_signal_8/a2_AC')
+    parser.add_argument('--a1-CDPG-folder', type=str, default='basic_signal_8/a1_CDPG')
+    parser.add_argument('--a2-CDPG-folder', type=str, default='basic_signal_8/a2_CDPG')
 
     args = parser.parse_args()
     config = Config(args)
@@ -90,7 +90,7 @@ def main():
     a1_CDPG.load_params(testing_epoch)
     a2_CDPG.load_params(testing_epoch)
 
-    episode_step = 100
+    episode_step = 1000
 
     X = []
     color = []

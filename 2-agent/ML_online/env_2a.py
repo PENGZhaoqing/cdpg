@@ -13,7 +13,7 @@ rewards = {
 class Env:
     def __init__(self, id, toxin):
         self.id = id
-        self.game = HunterWorld(width=256, height=256, num_preys=10, draw=False,
+        self.game = HunterWorld(width=512, height=512, num_preys=10, draw=False,
                                 num_hunters=2, num_toxins=toxin)
         self.ple = PLE(self.game, fps=30, force_fps=True, display_screen=False, reward_values=rewards,
                        resized_rows=80, resized_cols=80, num_steps=3)
