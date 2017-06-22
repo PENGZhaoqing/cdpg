@@ -35,7 +35,7 @@ def main():
     parser.add_argument('--a2-CDPG-folder', type=str, default='basic/a2_CDPG')
     parser.add_argument('--eps-start', type=float, default=1.0)
     parser.add_argument('--replay-start-size', type=int, default=50000)
-    parser.add_argument('--decay-rate', type=int, default=500000)
+    parser.add_argument('--decay-rate', type=int, default=50000)
     parser.add_argument('--replay-memory-size', type=int, default=1000000)
     parser.add_argument('--eps-min', type=float, default=0.05)
 
@@ -148,9 +148,9 @@ def main():
         a2_Qnet.load_params(start_epoch - 1)
         a1_CDPG.load_params(start_epoch - 1)
         a2_CDPG.load_params(start_epoch - 1)
-    # logging_config(logging, dir, save_log, file_name)
-    # else:
-    #     logging_config(logging, dir, save_log, file_name)
+        logging_config(logging, dir, save_log, file_name)
+    else:
+        logging_config(logging, dir, save_log, file_name)
 
     copyTargetQNetwork(a1_Qnet.model, a1_target1.model)
     copyTargetQNetwork(a1_Qnet.model, a1_target32.model)
@@ -230,53 +230,51 @@ def main():
                     actions_batch1 = nd.array(actions1, ctx=q_ctx)
                     reward_batch1 = nd.array(rewards1, ctx=q_ctx)
                     terminate_flags1 = nd.array(terminate_flags1, ctx=q_ctx)
-                    actions_batch2 = nd.array(actions2, ctx=q_ctx)
-                    reward_batch2 = nd.array(rewards2, ctx=q_ctx)
-                    terminate_flags2 = nd.array(terminate_flags2, ctx=q_ctx)
+                    a1_next_batch1 = nextstate_batch1[:, :, 0].reshape(32, 74)
+                    a2_next_batch1 = nextstate_batch1[:, :, 1].reshape(32, 74)
+                    a1_state_batch1 = state_batch1[:, :, 0].reshape(32, 74)
+                    a2_state_batch1 = state_batch1[:, :, 1].reshape(32, 74)
 
-                    a1_signal_target = \
-                        a1_CDPG_target.forward(nextstate_batch1[:, :, 1].reshape(32, 74), is_train=False)[0]
+                    a1_signal_target = a1_CDPG_target.forward(a2_next_batch1, is_train=False)[0]
 
                     a1_target32.model.forward(
-                        mx.io.DataBatch(
-                            [nd.array(nextstate_batch1[:, :, 0].reshape(32, 74), ctx=q_ctx), a1_signal_target], []))
+                        mx.io.DataBatch([nd.array(a1_next_batch1, ctx=q_ctx), a1_signal_target], []))
                     next_Qnet1 = a1_target32.model.get_outputs()[0]
 
                     y_batch1 = reward_batch1 + nd.choose_element_0index(next_Qnet1, nd.argmax_channel(next_Qnet1)) * (
                         1.0 - terminate_flags1) * discount
 
-                    a1_signal = \
-                        a1_CDPG.forward(nextstate_batch1[:, :, 1].reshape(32, 74), is_train=True)[0]
+                    a1_signal = a1_CDPG.forward(a2_state_batch1.reshape(32, 74), is_train=True)[0]
 
                     a1_Qnet.model.forward(
-                        mx.io.DataBatch(
-                            [nd.array(state_batch1[:, :, 0].reshape(32, 74), ctx=q_ctx), a1_signal, actions_batch1,
-                             y_batch1],
-                            []), is_train=True)
+                        mx.io.DataBatch([nd.array(a1_state_batch1, ctx=q_ctx), a1_signal, actions_batch1, y_batch1],
+                                        []), is_train=True)
                     a1_Qnet.model.backward()
                     a1_CDPG.model.backward(out_grads=[a1_Qnet.model._exec_group.execs[0].grad_dict['signal'][:]])
                     a1_CDPG.model.update()
                     a1_Qnet.model.update()
 
-                    a2_signal_target = \
-                        a2_CDPG_target.forward(nextstate_batch2[:, :, 0].reshape(32, 74), is_train=False)[0]
+                    actions_batch2 = nd.array(actions2, ctx=q_ctx)
+                    reward_batch2 = nd.array(rewards2, ctx=q_ctx)
+                    terminate_flags2 = nd.array(terminate_flags2, ctx=q_ctx)
+                    a1_next_batch2 = nextstate_batch2[:, :, 0].reshape(32, 74)
+                    a2_next_batch2 = nextstate_batch2[:, :, 1].reshape(32, 74)
+                    a1_state_batch2 = state_batch2[:, :, 0].reshape(32, 74)
+                    a2_state_batch2 = state_batch2[:, :, 1].reshape(32, 74)
+
+                    a2_signal_target = a2_CDPG_target.forward(a1_next_batch2, is_train=False)[0]
 
                     a2_target32.model.forward(
-                        mx.io.DataBatch(
-                            [nd.array(nextstate_batch2[:, :, 1].reshape(32, 74), ctx=q_ctx), a2_signal_target], []))
+                        mx.io.DataBatch([nd.array(a2_next_batch2, ctx=q_ctx), a2_signal_target], []))
                     next_Qnet2 = a2_target32.model.get_outputs()[0]
 
                     y_batch2 = reward_batch2 + nd.choose_element_0index(next_Qnet2, nd.argmax_channel(next_Qnet2)) * (
                         1.0 - terminate_flags2) * discount
 
-                    a2_signal = \
-                        a2_CDPG.forward(nextstate_batch2[:, :, 0].reshape(32, 74), is_train=True)[0]
-
+                    a2_signal = a2_CDPG.forward(a1_state_batch2, is_train=True)[0]
                     a2_Qnet.model.forward(
-                        mx.io.DataBatch(
-                            [nd.array(state_batch2[:, :, 1].reshape(32, 74), ctx=q_ctx), a2_signal, actions_batch2,
-                             y_batch2],
-                            []), is_train=True)
+                        mx.io.DataBatch([nd.array(a2_state_batch2, ctx=q_ctx), a2_signal, actions_batch2, y_batch2],
+                                        []), is_train=True)
                     a2_Qnet.model.backward()
                     a2_CDPG.model.backward(out_grads=[a2_Qnet.model._exec_group.execs[0].grad_dict['signal'][:]])
                     a2_CDPG.model.update()
