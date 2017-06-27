@@ -100,16 +100,18 @@ def confidence_band_offline(data1, data2, data3, data4, data5):
     plt.setp(plt.gca().get_legend().get_texts(), fontsize='10')
 
 
-def confidence_band_online(data1, data2, data3, data4):
+def confidence_band_online(data1, data2, data3, data4,data5):
     x1 = range_x(data1)
     x2 = range_x(data2)
     x3 = range_x(data3)
     x4 = range_x(data4)
+    x5 = range_x(data5)
 
     mean1, std1 = mean_std(data1)
     mean2, std2 = mean_std(data2)
     mean3, std3 = mean_std(data3)
     mean4, std4 = mean_std(data4)
+    mean5, std5 = mean_std(data5)
 
     # # greeen
     plt.plot(x1, mean1, 'k', color='#009E73', label="IL-online")
@@ -128,11 +130,16 @@ def confidence_band_online(data1, data2, data3, data4):
     plt.fill_between(x3, mean3 - std3, mean3 + std3,
                      alpha=0.1, edgecolor='#0B77B5', facecolor='#0B77B5',
                      linewidth=1)
-
     # red
-    plt.plot(x4, mean4, 'k', color='#ff0066', label="ML-online")
-    plt.fill_between(x4, mean4 - std4, mean4 + std4,
+    plt.plot(x5, mean5, 'k', color='#ff0066', label="ML-online")
+    plt.fill_between(x5, mean5 - std5, mean5 + std5,
                      alpha=0.1, edgecolor='#ff0066', facecolor='#ff0066',
+                     linewidth=1)
+
+    # # purple
+    plt.plot(x4, mean4, 'k', color='#a64dff', label="DIAL")
+    plt.fill_between(x4, mean4 - std4, mean4 + std4,
+                     alpha=0.1, edgecolor='#a64dff', facecolor='#a64dff',
                      linewidth=1)
 
     plt.legend(loc=2, labelspacing=0, fancybox=True, framealpha=0.5)
@@ -165,6 +172,8 @@ basic_PS_online = NetworkGraph("2-agents/online/PS_online.py_t_max_1_06_22_09_40
 basic_PS_online.load()
 basic_ML_online = NetworkGraph("2-agents/online/ML_online.py_t_max_1_06_18_17_44_adam-0.002.log")
 basic_ML_online.load()
+basic_DIAL_online = NetworkGraph("2-agents/online/DIAL_online.py_t_max_1_06_27_17_23_adam-0.002.log")
+basic_DIAL_online.load()
 
 toxin_IL_offline = NetworkGraph("2-agent-with-toxin/offline/IL_offline.py_06_20_06_04_adam-0.002.log")
 toxin_IL_offline.load()
@@ -176,6 +185,8 @@ toxin_ML_offline = NetworkGraph("2-agent-with-toxin/offline/ML_offline.py_06_22_
 toxin_ML_offline.load()
 toxin_MS_imitate = NetworkGraph("2-agent-with-toxin/offline/MS_imitate.py_06_20_10_21_adam-0.002.log")
 toxin_MS_imitate.load()
+toxin_DIAL_online = NetworkGraph("2-agent-with-toxin/online/ML_online.py_t_max_1_06_18_15_57_adam-0.002.log")
+toxin_DIAL_online.load()
 
 toxin_IL_online = NetworkGraph("2-agent-with-toxin/online/IL_online.py_t_max1_06_19_12_53_adam-0.002.log")
 toxin_IL_online.load()
@@ -185,6 +196,8 @@ toxin_PS_online = NetworkGraph("2-agent-with-toxin/online/PS_online.py_t_max_1_0
 toxin_PS_online.load()
 toxin_ML_online = NetworkGraph("2-agent-with-toxin/online/ML_online.py_t_max_1_06_18_15_57_adam-0.002.log")
 toxin_ML_online.load()
+toxin_DIAL_online = NetworkGraph("2-agent-with-toxin/online/DIAL_online.py_t_max_1_06_27_19_18_adam-0.002.log")
+toxin_DIAL_online.load()
 
 
 def smooth_offline(data):
@@ -237,7 +250,7 @@ plt.grid(color='w', linestyle='-', linewidth=1)
 
 plt.subplot(223)
 confidence_band_online(smooth_online(basic_IL_online.rewards), smooth_online(basic_GL_online.rewards),
-                       smooth_online(basic_PS_online.rewards),
+                       smooth_online(basic_PS_online.rewards), smooth_online(basic_DIAL_online.rewards),
                        smooth_online(basic_ML_online.rewards),
                        )
 ax = plt.gca()
@@ -249,7 +262,7 @@ plt.grid(color='w', linestyle='-', linewidth=1)
 
 plt.subplot(224)
 confidence_band_online(smooth_online(toxin_IL_online.rewards), smooth_online(toxin_GL_online.rewards),
-                       smooth_online(toxin_PS_online.rewards),
+                       smooth_online(toxin_PS_online.rewards), smooth_online(toxin_DIAL_online.rewards),
                        smooth_online(toxin_ML_online.rewards),
                        )
 ax = plt.gca()

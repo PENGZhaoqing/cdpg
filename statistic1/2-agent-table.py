@@ -74,6 +74,8 @@ basic_PS_online = NetworkGraph("2-agents/online/PS_online.py_t_max_1_06_22_09_40
 basic_PS_online.load()
 basic_ML_online = NetworkGraph("2-agents/online/ML_online.py_t_max_1_06_18_17_44_adam-0.002.log")
 basic_ML_online.load()
+basic_DIAL_online = NetworkGraph("2-agents/online/DIAL_online.py_t_max_1_06_27_17_23_adam-0.002.log")
+basic_DIAL_online.load()
 
 toxin_IL_offline = NetworkGraph("2-agent-with-toxin/offline/IL_offline.py_06_20_06_04_adam-0.002.log")
 toxin_IL_offline.load(True)
@@ -94,6 +96,8 @@ toxin_PS_online = NetworkGraph("2-agent-with-toxin/online/PS_online.py_t_max_1_0
 toxin_PS_online.load()
 toxin_ML_online = NetworkGraph("2-agent-with-toxin/online/ML_online.py_t_max_1_06_18_15_57_adam-0.002.log")
 toxin_ML_online.load()
+toxin_DIAL_online = NetworkGraph("2-agent-with-toxin/online/DIAL_online.py_t_max_1_06_27_19_18_adam-0.002.log")
+toxin_DIAL_online.load()
 
 
 def smooth_offline(data):
@@ -130,8 +134,10 @@ def mean_median_std(object, toxin=False):
     result.append(np.std(fps))
     return ['{:.2f}'.format(i) for i in result]
 
+
 def last_20_epoch_online(data):
     return data[-80:, :]
+
 
 def mean_median_std_online(object, toxin=False):
     reward = last_20_epoch_online(object.on_rewards)
@@ -148,7 +154,38 @@ def mean_median_std_online(object, toxin=False):
     result.append(np.std(fps))
     return ['{:.2f}'.format(i) for i in result]
 
+
+def mean_median_std_random(filename, toxin=False):
+    reward = []
+    fps = []
+    collision = []
+    with open(filename, 'r') as text_file:
+        lines = text_file.readlines()
+        for line in lines:
+            columns = line.split(',')
+            if len(columns) == 8:
+                reward.append(columns[4].split(':')[1])
+                fps.append(columns[5].split(":")[1])
+                collision.append(columns[7].split(':')[1].split('/')[1])
+    reward = np.array(reward, dtype=float)
+    fps = np.array(fps, dtype=float)
+    collision = np.array(collision, dtype=float)
+    result = []
+    result.append(np.mean(reward))
+    result.append(np.std(reward))
+    if toxin:
+        result.append(np.mean(collision))
+        result.append(np.std(collision))
+        result.append(np.mean(reward) / np.mean(collision))
+    result.append(np.mean(fps))
+    result.append(np.std(fps))
+    return ['{:.2f}'.format(i) for i in result]
+
+
 print "offline"
+print "random:" + str(mean_median_std_random('2-agents/offline/IL_offline.py_06_20_03_43_adam-0.002.log')) + str(
+    mean_median_std_random('2-agent-with-toxin/offline/IL_offline.py_06_20_06_04_adam-0.002.log', toxin=True))
+
 print 'IL:' + str(mean_median_std(basic_IL_offline)) + str(mean_median_std(toxin_IL_offline, toxin=True))
 print 'GL:' + str(mean_median_std(basic_GL_offline)) + str(mean_median_std(toxin_GL_offline, toxin=True))
 print 'PS:' + str(mean_median_std(basic_PS_offline)) + str(mean_median_std(toxin_PS_offline, toxin=True))
@@ -159,4 +196,6 @@ print "online"
 print 'IL:' + str(mean_median_std_online(basic_IL_online)) + str(mean_median_std_online(toxin_IL_online, toxin=True))
 print 'GL:' + str(mean_median_std_online(basic_GL_online)) + str(mean_median_std_online(toxin_GL_online, toxin=True))
 print 'PS:' + str(mean_median_std_online(basic_PS_online)) + str(mean_median_std_online(toxin_PS_online, toxin=True))
+print 'DIAL:' + str(mean_median_std_online(basic_DIAL_online)) + str(
+    mean_median_std_online(toxin_DIAL_online, toxin=True))
 print 'ML:' + str(mean_median_std_online(basic_ML_online)) + str(mean_median_std_online(toxin_ML_online, toxin=True))
