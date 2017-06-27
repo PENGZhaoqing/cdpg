@@ -41,6 +41,28 @@ class NetworkGraph(object):
 def range_x(data):
     return np.array(range(len(data))) * 0.5
 
+def plot(x1, y1, x2, y2, x3, y3):
+    plt.plot(x1, y1, 'b-', label="Full distributed method")
+    plt.plot(x2, y2, 'r-', label="Cooperative distributed method (CDPG)")
+    plt.plot(x3, y3, 'g-', label="Centralized method")
+    plt.legend(loc=4, labelspacing=0)
+    plt.setp(plt.gca().get_legend().get_texts(), fontsize='10')
+
+
+def mean_data(data):
+    a = len(data) % 24
+    return data[0:-a].reshape(-1, 24).mean(axis=1)
+
+
+def draw(data1, data2, data3):
+    mean_data1 = mean_data(data1)
+    mean_data2 = mean_data(data2)
+    mean_data3 = mean_data(data3)
+    x1 = range(len(mean_data1))
+    x2 = range(len(mean_data2))
+    x3 = range(len(mean_data3))
+    plot(x1, mean_data1, x2, mean_data2, x3, mean_data3)
+
 
 def confidence_bar(data1, data2, data3, data4, data5):
     x1 = range_x(data1)

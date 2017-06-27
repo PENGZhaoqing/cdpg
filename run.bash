@@ -84,15 +84,15 @@
 
 # ---GL online---
 # --basic--
-/usr/bin/python2.7 2-agent/GL_online/GL_online.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC  --save-log  basic/log
+#/usr/bin/python2.7 2-agent/GL_online/GL_online.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC  --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/GL_online/GL_online.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/GL_online/GL_online.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
 
 # ---PS online---
 # --basic--
-/usr/bin/python2.7 2-agent/PS_online/PS_online.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC  --save-log  basic/log
+#/usr/bin/python2.7 2-agent/PS_online/PS_online.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC  --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/PS_online/PS_online.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/PS_online/PS_online.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC  --save-log  toxin/log
 
 # ---PS offline---
 # --basic--
@@ -102,9 +102,9 @@
 
 # ---IL online---
 # --basic--
-/usr/bin/python2.7 2-agent/IL_online/IL_online.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
+#/usr/bin/python2.7 2-agent/IL_online/IL_online.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
 # --toxin--
-/usr/bin/python2.7 2-agent/IL_online/IL_online.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
+#/usr/bin/python2.7 2-agent/IL_online/IL_online.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
 
 # ---IL offline---
 # --basic--
@@ -124,6 +124,15 @@
 # --toxin--
 #/usr/bin/python2.7 2-agent/MS_sample_twice/MS_sample_twice.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
 
+
+# ---DIAL---
+# --basic--
+/usr/bin/python2.7 2-agent/DIAL_online/DIAL_online.py --t-max 1 --epoch-num 40  --toxin 0 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder basic/a1_AC --a2-AC-folder basic/a2_AC  --save-log  basic/log
+# --toxin--
+/usr/bin/python2.7 2-agent/DIAL_online/DIAL_online.py --t-max 1 --epoch-num 40  --toxin 5 --testing 0 --testing-epoch 39 --continue-training 0 --start-epoch 20 --signal-num 4 --a1-AC-folder toxin/a1_AC --a2-AC-folder toxin/a2_AC  --save-log  toxin/log
+
+
+
 # ----3 agent----
 # ---uncom toxin---
 # /usr/bin/python2.7 3-agent/uncom_toxin/cdpg.py  --t-max 1  --epoch-num 60  --toxin 5 --testing 0 --testing-epoch 59 --continue-training 0 --start-epoch 59 --signal-num 4
@@ -135,3 +144,4 @@
 # /usr/bin/python2.7 3-agent/central_toxin/cdpg.py  --t-max 1 --epoch-num 60  --toxin 5 --testing 0 --testing-epoch 59 --continue-training 0 --start-epoch 59 --signal-num 4
 
 #bash run_dqn.bash
+
