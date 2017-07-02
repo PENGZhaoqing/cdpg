@@ -82,7 +82,7 @@ def confidence_band_offline(data1, data2, data3, data4, data5):
                      linewidth=1)
 
     # red
-    plt.plot(x4, mean4, 'k', color='#ff0066', label="ML-offline")
+    plt.plot(x4, mean4, 'k', color='#ff0066', label="CML-offline")
     plt.fill_between(x4, mean4 - std4, mean4 + std4,
                      alpha=0.1, edgecolor='#ff0066', facecolor='#ff0066',
                      linewidth=1)
@@ -131,7 +131,7 @@ def confidence_band_online(data1, data2, data3, data4,data5):
                      alpha=0.1, edgecolor='#0B77B5', facecolor='#0B77B5',
                      linewidth=1)
     # red
-    plt.plot(x5, mean5, 'k', color='#ff0066', label="ML-online")
+    plt.plot(x5, mean5, 'k', color='#ff0066', label="CML-online")
     plt.fill_between(x5, mean5 - std5, mean5 + std5,
                      alpha=0.1, edgecolor='#ff0066', facecolor='#ff0066',
                      linewidth=1)

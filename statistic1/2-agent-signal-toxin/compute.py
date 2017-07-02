@@ -82,39 +82,39 @@ def confidence_bar(data1, data2, data3, data4, data5, data6, data7):
     mean7, std7 = mean_std(data7)
 
     # # red
-    plt.plot(x1, mean1, 'k', color='#ff0066', label="ML Bandwidth: 1")
+    plt.plot(x1, mean1, 'k', color='#ff0066', label="CML Bandwidth: 1")
     plt.fill_between(x1, mean1 - std1, mean1 + std1,
                      alpha=0.1, edgecolor='#ff0066', facecolor='#ff0066',
                      linewidth=1)
     # # greeen
-    plt.plot(x2, mean2, 'k', color='#009E73', label="ML Bandwidth: 2")
+    plt.plot(x2, mean2, 'k', color='#009E73', label="CML Bandwidth: 2")
     plt.fill_between(x2, mean2 - std2, mean2 + std2,
                      alpha=0.1, edgecolor='#009E73', facecolor='#009E73',
                      linewidth=1)
     # # pink
-    plt.plot(x3, mean3, 'k', color='#c46ea0', label="ML Bandwidth: 3")
+    plt.plot(x3, mean3, 'k', color='#c46ea0', label="CML Bandwidth: 3")
     plt.fill_between(x3, mean3 - std3, mean3 + std3,
                      alpha=0.1, edgecolor='#c46ea0', facecolor='#c46ea0',
                      linewidth=1)
 
     # # orange
-    plt.plot(x4, mean4, 'k', color='#ff9900', label="ML Bandwidth: 4")
+    plt.plot(x4, mean4, 'k', color='#ff9900', label="CML Bandwidth: 4")
     plt.fill_between(x4, mean4 - std4, mean4 + std4,
                      alpha=0.1, edgecolor='#ff9900', facecolor='#ff9900',
                      linewidth=1)
 
     # blue
-    plt.plot(x5, mean5, 'k', color='#0B77B5', label="ML Bandwidth: 5")
+    plt.plot(x5, mean5, 'k', color='#0B77B5', label="CML Bandwidth: 5")
     plt.fill_between(x5, mean5 - std5, mean5 + std5,
                      alpha=0.1, edgecolor='#0B77B5', facecolor='#0B77B5',
                      linewidth=1)
     # purple
-    plt.plot(x6, mean6, 'k', color='#a64dff', label="ML Bandwidth: 6")
+    plt.plot(x6, mean6, 'k', color='#a64dff', label="CML Bandwidth: 6")
     plt.fill_between(x6, mean6 - std6, mean6 + std6,
                      alpha=0.1, edgecolor='#a64dff', facecolor='#a64dff',
                      linewidth=1)
     # yellow
-    plt.plot(x7, mean7, 'k', color='#e6e600', label="ML Bandwidth: 8")
+    plt.plot(x7, mean7, 'k', color='#e6e600', label="CML Bandwidth: 8")
     plt.fill_between(x7, mean7 - std7, mean7 + std7,
                      alpha=0.1, edgecolor='#e6e600', facecolor='#e6e600',
                      linewidth=1)
@@ -215,7 +215,7 @@ basic_stds = (np.std(basic_signal_1.rewards), np.std(basic_signal_2.rewards),
 rects2 = ax.bar(ind + width, basic_means, width, color='c', yerr=basic_stds, ecolor='0.75', capsize=4)
 ax.set_title("Average performance on diverse bandwidths")
 ax.set_ylabel('Average scores')
-ax.set_xlabel('ML Bandwidth')
+ax.set_xlabel('CML Bandwidth')
 ax.set_xticks(ind + width / 2)
 ax.set_xticklabels(('1', '2', '3', '4', '5', '6', '8'))
 ax.legend((rects1[0], rects2[0]), ('5 toxins', 'no toxin'), loc=2)

@@ -5,6 +5,7 @@ from com_network import *
 from uncom_network import ActorCritic_uncom
 from config import Config
 from utils import *
+
 dir = os.path.dirname(__file__)
 os.path.join(os.path.realpath('..'))
 file_name = os.path.basename(__file__)
@@ -12,7 +13,10 @@ from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.pyplot as plt
 from matplotlib import cm
 import numpy as np
+import matplotlib.image as mpimg
+
 Axes3D
+
 
 def main():
     parser = argparse.ArgumentParser()
@@ -40,14 +44,19 @@ def main():
     a1_CDPG_folder = args.a1_CDPG_folder
     a2_CDPG_folder = args.a2_CDPG_folder
 
-    fig = plt.figure(figsize=(10, 10))
+    fig = plt.figure(figsize=(20, 8))
+    # ax = fig.add_subplot(3, 1, 1)
+    # img = mpimg.imread('loca.png')
+    # plt.axis('off')
+    # plt.imshow(img,interpolation='none')
+
     count = 1
 
     for testing_epoch in testing_epoch_list:
 
-        a1_AC = ActorCritic_uncom(state_dim=74, act_space=4, dir=dir, folder='../uncom/basic/a1_AC',
+        a1_AC = ActorCritic_uncom(state_dim=74, act_space=4, dir=dir, folder='../IL_online/basic/a1_AC',
                                   config=config)
-        a2_AC = ActorCritic_uncom(state_dim=74, act_space=4, dir=dir, folder='../uncom/basic/a2_AC',
+        a2_AC = ActorCritic_uncom(state_dim=74, act_space=4, dir=dir, folder='../IL_online/basic/a2_AC',
                                   config=config)
 
         a1_AC.load_params(testing_epoch)
@@ -94,8 +103,9 @@ def main():
         ax.zaxis.set_rotate_label(False)
         ax.set_zlabel(r'$\pi$(left)', labelpad=10)
         ax.set_zlim(0, 1)
-        ax.set_title("Individual Learning (Epoch " + str(testing_epoch * 4) + ")", fontsize=12)
+        ax.set_title("IL (epoch " + str(testing_epoch) + ")", fontsize=12)
         count += 1
+
 
     for testing_epoch in testing_epoch_list:
 
@@ -150,15 +160,19 @@ def main():
         ax.zaxis.set_rotate_label(False)
         ax.set_zlabel(r'$\pi$(left)', labelpad=10)
         ax.set_zlim(0, 1)
-        ax.set_title("Cooperative Learning (Epoch " + str(testing_epoch * 4) + ")", fontsize=12)
+
+        if testing_epoch == 30:
+            cbaxes = fig.add_axes([0.95, 0.2, 0.01, 0.18])
+            cb = fig.colorbar(surf, cax=cbaxes)
+            # fig.colorbar(surf, shrink=0.4, aspect=10, orientation="vertical", pad=0.12)
+        ax.set_title("CML (epoch " + str(testing_epoch) + ")", fontsize=12)
+
         count += 1
 
         # Customize the z axis.
         # ax.zaxis.set_major_locator(LinearLocator(10))
         # ax.zaxis.set_major_formatter(FormatStrFormatter('%.02f'))
-
-
-    plt.axis('tight')
+    # plt.tight_layout(pad=10, w_pad=10, h_pad=10)
     plt.show()
 
 
